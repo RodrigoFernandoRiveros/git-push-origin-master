@@ -7,7 +7,7 @@ class TasksController < ApplicationController
   end
 
   def show
-    @tasks = Task.find(params[:id]) # Mostrar una tarea
+    @task = Task.find(params[:id]) # Mostrar una tarea
   end
 
   def new
@@ -15,9 +15,9 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(params[:task])
+    @task = Task.new(task_params)
     @task.save
-    # Will raise ActiveModel::ForbiddenAttributesError
+    redirect_to tasks_path
   end
 
   def edit
@@ -26,7 +26,8 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    @task.update(params[:task]) # Actualizar una tarea
+    @task.update(task_params) # Actualizar una tarea
+    redirect_to tasks_path
   end
 
   def destroy
@@ -35,5 +36,11 @@ class TasksController < ApplicationController
 
     # no need for app/views/tasks/destroy.html.erb
     redirect_to tasks_path
+  end
+
+  private
+
+  def task_params
+    params.require(:task).permit(:title, :details, :completed)
   end
 end

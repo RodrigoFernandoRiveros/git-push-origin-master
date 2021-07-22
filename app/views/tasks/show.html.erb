@@ -6,3 +6,6 @@
             task_path(@task),
             method: :delete,
             data: { confirm: "Are you sure?" } %>
+
+  <%= link_to "Edit task",
+            edit_task_path(@task.id) %>
